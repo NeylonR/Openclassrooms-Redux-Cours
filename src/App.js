@@ -1,7 +1,8 @@
+import ScoreBoard from "./ScoreBoard";
 
 function App() {
   return (
-  <p>Hello</p>
+    <ScoreBoard/>
   );
 }
 

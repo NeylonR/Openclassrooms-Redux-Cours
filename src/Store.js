@@ -3,8 +3,8 @@ import { createStore } from "redux";
 import produce from "immer";
 
 const initialState = {
-  player1Score: 0,
-  player2Score: 0,
+  player1: 0,
+  player2: 0,
   advantage: null,
   winner: null,
   playing: true,
@@ -25,24 +25,27 @@ function reducer(state = initialState, action) {
   
   if(action.type === "addPlayerScore") {
     const player = action.payload.player;
-    const otherPlayer = player === "player1Score" ? "player2Score" : "player1Score";
+    const otherPlayer = player === "player1" ? "player2" : "player1";
     const currentPlayerScore = state[player];
-    
+
     if(state.playing === false){
       return state;
     }
+
     if(currentPlayerScore <= 15){
       const nextState = produce(state, draft => {
         draft[player] = currentPlayerScore + 15;
       })
       return nextState;
     }
+
     if(currentPlayerScore === 30){
       const nextState = produce(state, draft => {
         draft[player] = currentPlayerScore + 10;
       })
       return nextState;
     }
+
     if(currentPlayerScore === 40){
       if(state[otherPlayer] !== 40 || state.advantage === player){
         const nextState = produce(state, draft => {
@@ -50,6 +53,14 @@ function reducer(state = initialState, action) {
         })
         return nextState;
       }
+
+      if(state.advantage === otherPlayer){
+        const nextState = produce(state, draft => {
+          draft.advantage = null;
+        })
+        return nextState;
+      }
+
       const nextState = produce(state, draft => {
         draft.advantage = player;
       })
@@ -61,12 +72,15 @@ function reducer(state = initialState, action) {
     const nextState = produce(state, draft => {
       if(state.winner) {
         const player = draft.winner;
-        const playerString = draft.winner === "player1Score" ? "Player 1 " : "Player 2 ";
-        const otherPlayer = draft.winner === "player1Score" ? "player2Score" : "player1Score";
-        draft.history.push(`${playerString} won ${draft[player]} - ${draft[otherPlayer]}`);
+        const otherPlayer = draft.winner === "player1" ? "player2" : "player1";
+        draft.history.push({
+          player1: draft[player],
+          player2: draft[otherPlayer],
+          winner: player
+        })
       }
-      draft.player1Score = 0;
-      draft.player2Score = 0;
+      draft.player1 = 0;
+      draft.player2 = 0;
       draft.advantage = null;
       draft.winner = null;
       draft.playing = true;

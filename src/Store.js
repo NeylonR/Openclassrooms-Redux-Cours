@@ -7,7 +7,7 @@ const initialState = {
   player2: 0,
   advantage: null,
   winner: null,
-  playing: true,
+  playing: false,
   history: []
 }
 
@@ -16,9 +16,9 @@ function reducer(state = initialState, action) {
     return state;
   }
 
-  if(action.type === "playPauseAction") {
+  if(action.type === "setPlaying") {
     const nextState = produce(state, draft => {
-      draft.playing = !draft.playing;
+      draft.playing = action.payload;
     })
     return nextState;
   }
@@ -83,7 +83,7 @@ function reducer(state = initialState, action) {
       draft.player2 = 0;
       draft.advantage = null;
       draft.winner = null;
-      draft.playing = true;
+      draft.playing = false;
     })
     return nextState;
   }

@@ -1,3 +1,5 @@
+### Exercice fil rouge du cours d'openclassrooms [Utilisez le state manager Redux pour gérer l’état de vos applications Partie 1&2](https://openclassrooms.com/fr/courses/7150626-utilisez-le-state-manager-redux-pour-gerer-l-etat-de-vos-applications)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
